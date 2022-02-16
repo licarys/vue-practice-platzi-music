@@ -12,16 +12,18 @@
           <p class="control">
             <a href="" class="button is-danger is-large">&times;</a>
           </p>
-          <p>
-            <small>{{searchMessage}}</small>
-          </p>
         </div>
       </nav>
+      <div class="container">
+        <p>
+          <small>{{searchMessage}}</small>
+        </p>
+      </div>
 
       <div class="container">
         <div class="colums">
           <div class="column" v-for="(track, index) in tracks" :key="index">
-            {{track.name}} - {{track.artist}}
+            {{track.name}} - {{track.artists[0].name}}
           </div>
         </div>
       </div>
@@ -30,11 +32,7 @@
 </template>
 
 <script>
-const tracks = [
-  { name: 'Muchacha', artist: 'Luis Alberto Spinetta' },
-  { name: 'Hoy aca en el baile', artist: 'El Pepo' },
-  { name: 'I was made for loving you', artist: 'Kiss' }
-]
+import trackService from './services/track'
 
 export default {
   name: 'app',
@@ -54,7 +52,12 @@ export default {
 
   methods: {
     search () {
-      this.tracks = tracks
+      if (!this.searchQuery) return
+      trackService.search(this.searchQuery)
+        .then(res => {
+          console.log(res.tracks)
+          this.tracks = res.tracks?.items
+        })
     }
   }
 }
