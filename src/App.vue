@@ -1,5 +1,7 @@
 <template>
   <div id="app">
+    <pm-header />
+
     <section class="section">
       <nav class="nav has-shadow">
         <div class="field is-grouped">
@@ -28,14 +30,20 @@
         </div>
       </div>
     </section>
+
+    <pm-footer />
   </div>
 </template>
 
 <script>
 import trackService from './services/track'
+import PmFooter from './components/footer.vue'
+import PmHeader from './components/header.vue'
 
 export default {
   name: 'app',
+
+  components: { PmFooter, PmHeader },
 
   data () {
     return {
