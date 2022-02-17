@@ -1,7 +1,6 @@
 <template>
   <div id="app">
     <pm-header />
-
     <section class="section">
       <nav class="nav has-shadow">
         <div class="field is-grouped">
@@ -22,10 +21,12 @@
         </p>
       </div>
 
-      <div class="container">
-        <div class="colums">
-          <div class="column" v-for="(track, index) in tracks" :key="index">
-            {{track.name}} - {{track.artists[0].name}}
+      <pm-loader v-show="isLoading" />
+
+      <div class="container results" v-show="!isLoading">
+        <div class="columns is-multiline">
+          <div class="column is-one-quarter" v-for="(track, index) in tracks" :key="index">
+            <pm-track :track="track" />
           </div>
         </div>
       </div>
@@ -37,18 +38,21 @@
 
 <script>
 import trackService from './services/track'
-import PmFooter from './components/footer.vue'
-import PmHeader from './components/header.vue'
+import PmFooter from '@/components/layout/Footer.vue'
+import PmHeader from '@/components/layout/Header.vue'
+import PmTrack from '@/components/Track.vue'
+import PmLoader from '@/components/shared/Loader.vue'
 
 export default {
   name: 'app',
 
-  components: { PmFooter, PmHeader },
+  components: { PmFooter, PmHeader, PmTrack, PmLoader },
 
   data () {
     return {
       searchQuery: '',
-      tracks: []
+      tracks: [],
+      isLoading: true
     }
   },
 
@@ -61,9 +65,12 @@ export default {
   methods: {
     search () {
       if (!this.searchQuery) return
+
+      this.isLoading = true
       trackService.search(this.searchQuery)
         .then(res => {
           console.log(res.tracks)
+          this.isLoading = false
           this.tracks = res.tracks?.items
         })
     }

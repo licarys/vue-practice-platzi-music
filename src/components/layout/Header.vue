@@ -13,7 +13,7 @@
     <div class="hero-body">
       <div class="container has-text-centered">
         <h1 class="title">Platzi Music</h1>
-        <h2 class="subtitle">Canciones que estan Vue</h2>
+        <h2 class="subtitle">Canciones que estan Vue-nisimas</h2>
       </div>
     </div>
   </section>
