@@ -19,8 +19,8 @@
                 <small> {{ track.duration_ms }}  </small>
                 <nav class="level">
                     <div class="level-left">
-                        <a href="" class="level-item has-text-centered">
-                            <span class="icon is-small">▶️</span>
+                        <a class="level-item has-text-centered">
+                            <span class="icon is-small" @click="selectTrack">▶️</span>
                         </a>
                     </div>
                 </nav>
@@ -35,6 +35,12 @@ export default {
     track: {
       type: Object,
       required: true
+    }
+  },
+
+  methods: {
+    selectTrack () {
+      this.$emit('select', this.track.id)
     }
   }
 }

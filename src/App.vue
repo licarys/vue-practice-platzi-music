@@ -2,7 +2,7 @@
   <div id="app">
     <pm-header />
     <section class="section">
-      <nav class="nav has-shadow">
+      <nav class="nav">
         <div class="field is-grouped">
           <p class="control is-expanded">
             <input type="text" class="input is-large" placeholder="Buscar canciones" v-model="searchQuery">
@@ -21,12 +21,20 @@
         </p>
       </div>
 
+      <pm-notification v-show="showNotification">
+        <p>No se encontraron resultados</p>
+      </pm-notification>
+
       <pm-loader v-show="isLoading" />
 
       <div class="container results" v-show="!isLoading">
         <div class="columns is-multiline">
           <div class="column is-one-quarter" v-for="(track, index) in tracks" :key="index">
-            <pm-track :track="track" />
+            <pm-track
+              :class="{ 'is-active': track.id === selectedTrack }"
+              :track="track"
+              @select="setSelectedTrack"
+            />
           </div>
         </div>
       </div>
@@ -38,27 +46,43 @@
 
 <script>
 import trackService from './services/track'
+
 import PmFooter from '@/components/layout/Footer.vue'
 import PmHeader from '@/components/layout/Header.vue'
+
 import PmTrack from '@/components/Track.vue'
+import PmNotification from '@/components/shared/Notifications.vue'
+
 import PmLoader from '@/components/shared/Loader.vue'
 
 export default {
   name: 'app',
 
-  components: { PmFooter, PmHeader, PmTrack, PmLoader },
+  components: { PmFooter, PmHeader, PmTrack, PmLoader, PmNotification },
 
   data () {
     return {
       searchQuery: '',
       tracks: [],
-      isLoading: true
+      isLoading: false,
+      showNotification: false,
+      selectedTrack: ''
     }
   },
 
   computed: {
     searchMessage () {
       return `Encontrados: ${this.tracks.length}`
+    }
+  },
+
+  watch: {
+    showNotification () {
+      if (this.showNotification) {
+        setTimeout(() => {
+          this.showNotification = false
+        }, 3000)
+      }
     }
   },
 
@@ -69,10 +93,13 @@ export default {
       this.isLoading = true
       trackService.search(this.searchQuery)
         .then(res => {
-          console.log(res.tracks)
+          this.showNotification = res.tracks.total === 0
           this.isLoading = false
           this.tracks = res.tracks?.items
         })
+    },
+    setSelectedTrack (selectedTrack) {
+      this.selectedTrack = selectedTrack
     }
   }
 }
@@ -80,4 +107,12 @@ export default {
 
 <style lang="scss">
 @import './scss/main.scss';
+
+.results {
+  margin-top: 50px;
+}
+
+.is-active {
+  border: 3px #23d160 solid;
+}
 </style>
