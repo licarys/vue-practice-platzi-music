@@ -21,8 +21,8 @@
         </p>
       </div>
 
-      <pm-notification v-show="showNotification">
-        <p>No se encontraron resultados</p>
+      <pm-notification name="body" v-show="showNotification" :notification-type="notificationType">
+        <p slot="body">{{notificationText}}</p>
       </pm-notification>
 
       <pm-loader v-show="isLoading" />
@@ -66,6 +66,8 @@ export default {
       tracks: [],
       isLoading: false,
       showNotification: false,
+      notificationType: '',
+      notificationText: '',
       selectedTrack: ''
     }
   },
@@ -93,8 +95,15 @@ export default {
       this.isLoading = true
       trackService.search(this.searchQuery)
         .then(res => {
-          this.showNotification = res.tracks.total === 0
           this.isLoading = false
+          this.showNotification = true
+          if (res.tracks.total === 0) {
+            this.notificationType = 'is-danger'
+            this.notificationText = 'No se encontraron resultados :)'
+          } else {
+            this.notificationType = 'is-success'
+            this.notificationText = 'Se encontraron resultados :D'
+          }
           this.tracks = res.tracks?.items
         })
     },
