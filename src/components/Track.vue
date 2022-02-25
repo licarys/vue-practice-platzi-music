@@ -21,6 +21,7 @@
                     <div class="level-left">
                         <a class="level-item has-text-centered">
                             <span class="icon is-small" @click="selectTrack">▶️</span>
+                            <span class="icon is-small" @click="goToTrack(track.id)">🌍</span>
                         </a>
                     </div>
                 </nav>
@@ -43,6 +44,9 @@ export default {
       this.$emit('select', this.track.id)
 
       this.$bus.$emit('set-track', this.track)
+    },
+    goToTrack (id) {
+      this.$router.push({ name: 'track', params: { id } })
     }
   }
 }

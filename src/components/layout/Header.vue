@@ -6,7 +6,10 @@
           <div class="nav-left">
             <div class="nav-item">🏪 Platzi Music</div>
           </div>
-          <div class="nav-right nav-menu"></div>
+          <div class="nav-right nav-menu">
+            <router-link class="py-4 pr-4" to="/">Buscar</router-link>
+            <router-link class="p-4" to="about">Sobre nosotros</router-link>
+          </div>
         </div>
       </header>
     </div>
