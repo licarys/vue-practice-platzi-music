@@ -4,7 +4,7 @@
       <nav class="nav">
         <div class="field is-grouped">
           <p class="control is-expanded">
-            <input type="text" class="input is-large" placeholder="Buscar canciones" v-model="searchQuery">
+            <input type="text" class="input is-large" placeholder="Buscar canciones" v-model="searchQuery" @keyup.enter="search">
           </p>
           <p class="control">
             <a class="button is-info is-large" @click="search">Buscar</a>
