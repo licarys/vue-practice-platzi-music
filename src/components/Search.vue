@@ -30,6 +30,7 @@
         <div class="columns is-multiline">
           <div class="column is-one-quarter" v-for="(track, index) in tracks" :key="index">
             <pm-track
+              v-blur="track.preview_url"
               :class="{ 'is-active': track.id === selectedTrack }"
               :track="track"
               @select="setSelectedTrack"

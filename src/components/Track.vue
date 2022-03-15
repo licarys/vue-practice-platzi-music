@@ -19,10 +19,12 @@
                 <small> {{ track.duration_ms  | ms-to-mm}}  </small>
                 <nav class="level">
                     <div class="level-left">
-                        <a class="level-item has-text-centered">
-                            <span class="icon is-small" @click="selectTrack">▶️</span>
-                            <span class="icon is-small" @click="goToTrack(track.id)">🌍</span>
-                        </a>
+                        <button class="level-item has-text-centered button is-primary" @click="selectTrack">
+                          <span class="icon is-small">▶️</span>
+                        </button>
+                        <button class="level-item has-text-centered button is-warning"  @click="goToTrack(track.id)">
+                          <span class="icon is-small">🌍</span>
+                        </button>
                     </div>
                 </nav>
             </div>
