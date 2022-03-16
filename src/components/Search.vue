@@ -20,11 +20,15 @@
         </p>
       </div>
 
-      <pm-notification name="body" v-show="showNotification" :notification-type="notificationType">
-        <p slot="body">{{notificationText}}</p>
-      </pm-notification>
+      <transition name="slide-fade">
+        <pm-notification name="body" v-show="showNotification" :notification-type="notificationType">
+          <p slot="body">{{notificationText}}</p>
+        </pm-notification>
+      </transition>
 
-      <pm-loader v-show="isLoading" />
+      <transition name="slide-fade">
+        <pm-loader v-show="isLoading" />
+      </transition>
 
       <div class="container results" v-show="!isLoading">
         <div class="columns is-multiline">
